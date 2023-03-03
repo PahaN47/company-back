@@ -7,7 +7,7 @@ name = "pypi"
 pre-commit = "*"
 autoflake = "*"
 black = "*"
-flake8 = "*"
+pylint = "*"
 
 [dev-packages]
 
