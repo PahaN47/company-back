@@ -1,12 +1,14 @@
+from datetime import datetime as dt, timedelta
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.utils.translation import gettext_lazy as _
 
 from company_back.const import MatchStatus, MessageStatus, PurchaseStatus, Role
 from .managers import CustomUserManager
+import jwt
 
 
-# Create your models here.
 class Country(models.Model):
     name = models.CharField(max_length=128)
 
@@ -64,6 +66,21 @@ class User(AbstractBaseUser):
     @property
     def has_perm(self):
         return lambda x: self.role == Role.ADMIN
+
+    @property
+    def token(self):
+        return self.generate_jwt_token()
+
+    def generate_jwt_token(self):
+        exp_date = dt.now() + timedelta(days=1)
+
+        token = jwt.encode(
+            {"id": self.pk, "exp": int(exp_date.strftime("%s"))},
+            settings.SECRET_KEY,
+            algorithm="HS256",
+        )
+
+        return token
 
     def __str__(self):
         return str(self.email)

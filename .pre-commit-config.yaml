@@ -38,5 +38,6 @@ repos:
             --disable=missing-function-docstring,
             --disable=C0103,
             --disable=C0411,
+            --disable=R0903,
             --ignored-modules=migrations,
           ]
