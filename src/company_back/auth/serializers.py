@@ -1,22 +1,17 @@
+from django.contrib.auth import authenticate
+from django.core.validators import EmailValidator
+
 from rest_framework import serializers
 
 from company_back.models import User
-from django.contrib.auth import authenticate
-from django.core.validators import EmailValidator
 
 
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = [
-            "firstName",
-            "email",
-            "password",
-            "birthDate",
-            "token",
-        ]
+        fields = ["id", "firstName", "email", "password", "birthDate", "token"]
 
-        read_only_fields = ("token",)
+        read_only_fields = ["id", "token"]
         extra_kwargs = {"password": {"write_only": True}, "birthDate": {"write_only": True}}
 
     def create(self, validated_data):
@@ -26,9 +21,9 @@ class RegisterSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["email", "password", "firstName", "token"]
+        fields = ["id", "email", "password", "firstName", "token"]
 
-        read_only_fields = ("firstName", "token")
+        read_only_fields = ["id", "firstName", "token"]
         extra_kwargs = {"password": {"write_only": True}, "email": {"validators": [EmailValidator]}}
 
     def validate(self, attrs):
@@ -47,8 +42,8 @@ class LoginSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("A user with this email and password was not found.")
 
         return {
-            "firstName": user.firstName,
+            "id": user.id,
             "email": user.email,
-            "password": user.password,
+            "firstName": user.firstName,
             "token": user.token,
         }

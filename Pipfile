@@ -10,6 +10,7 @@ django-extensions = "*"
 pyjwt = "*"
 djangorestframework = "*"
 drf-yasg = "*"
+python-dateutil = "*"
 
 [dev-packages]
 pre-commit = "*"
