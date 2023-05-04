@@ -26,3 +26,6 @@ class MatchStatus(str, Enum):
 class MessageStatus(str, Enum):
     SENT = "sent"
     DELETED = "deleted"
+
+
+AUTH_TOKEN_NAME = "accessToken"

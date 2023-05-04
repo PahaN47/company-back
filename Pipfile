@@ -6,6 +6,11 @@ name = "pypi"
 [packages]
 django = "*"
 psycopg2 = "*"
+django-extensions = "*"
+pyjwt = "*"
+djangorestframework = "*"
+drf-yasg = "*"
+python-dateutil = "*"
 
 [dev-packages]
 pre-commit = "*"
