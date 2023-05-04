@@ -36,17 +36,11 @@ class User(AbstractBaseUser):
     phone = models.CharField(max_length=32, default=None, blank=True, null=True)
     email = models.EmailField(_("email address"), unique=True)
     role = models.CharField(max_length=16, default=Role.USER.value, blank=True, null=False)
-    balance = models.OneToOneField(
-        Balance, on_delete=models.SET_NULL, default=None, blank=True, null=True
-    )
-    avatar = models.OneToOneField(
-        Media, on_delete=models.SET_NULL, default=None, blank=True, null=True
-    )
+    balance = models.OneToOneField(Balance, on_delete=models.SET_NULL, default=None, blank=True, null=True)
+    avatar = models.OneToOneField(Media, on_delete=models.SET_NULL, default=None, blank=True, null=True)
     gender = models.CharField(max_length=32, default=None, blank=True, null=True)
     birthDate = models.DateField()
-    country = models.ForeignKey(
-        Country, on_delete=models.SET_NULL, default=None, blank=True, null=True
-    )
+    country = models.ForeignKey(Country, on_delete=models.SET_NULL, default=None, blank=True, null=True)
     timezone = models.IntegerField(default=None, blank=True, null=True)
 
     USERNAME_FIELD = "email"
@@ -95,21 +89,15 @@ class User(AbstractBaseUser):
 
 
 class Purchase(models.Model):
-    balance = models.ForeignKey(
-        Balance, on_delete=models.SET_NULL, default=None, blank=True, null=True
-    )
+    balance = models.ForeignKey(Balance, on_delete=models.SET_NULL, default=None, blank=True, null=True)
     gift = models.ForeignKey(Gift, on_delete=models.CASCADE)
-    reciever = models.ForeignKey(User, on_delete=models.CASCADE)
-    status = models.CharField(
-        max_length=16, default=PurchaseStatus.PENDING.value, blank=True, null=False
-    )
+    reciever = models.ForeignKey(User, related_name="gifts", on_delete=models.CASCADE)
+    status = models.CharField(max_length=16, default=PurchaseStatus.PENDING.value, blank=True, null=False)
     date = models.DateField(blank=True, null=True, auto_now=True)
 
 
 class Match(models.Model):
-    status = models.CharField(
-        max_length=16, default=MatchStatus.PENDING.value, blank=True, null=False
-    )
+    status = models.CharField(max_length=16, default=MatchStatus.PENDING.value, blank=True, null=False)
     initiator = models.ForeignKey(User, on_delete=models.CASCADE, related_name="initiator")
     reciever = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reciever")
     date = models.DateField(blank=True, null=True, auto_now=True)
@@ -125,7 +113,5 @@ class Message(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     message = models.CharField(max_length=256)
     date = models.DateTimeField(blank=True, null=True, auto_now=True)
-    status = models.CharField(
-        max_length=16, default=MessageStatus.SENT.value, blank=True, null=False
-    )
+    status = models.CharField(max_length=16, default=MessageStatus.SENT.value, blank=True, null=False)
     gift = models.ForeignKey(Gift, on_delete=models.CASCADE, default=None, blank=True, null=True)

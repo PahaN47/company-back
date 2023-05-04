@@ -34,7 +34,6 @@ mathces_create = CreateMatchAPIView.as_view()
 chats = ChatsViewSet.as_view({"get": "list"})
 
 messages_get = MessagesViewSet.as_view({"get": "list"})
-messages_delete = MessagesViewSet.as_view({"delete": "destroy"})
 
 countries = CountriesViewSet.as_view({"get": "list"})
 
@@ -58,8 +57,12 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("swagger/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
-    path("swagger/swagger.json/", schema_view.without_ui(), name="schema-swagger-ui-json"),
+    path(
+        "swagger/",
+        schema_view.with_ui("swagger", cache_timeout=0),
+        name="schema-swagger-ui",
+    ),
+    path("swagger/swagger.yml/", schema_view.without_ui(), name="schema-swagger-ui-json"),
     path("auth/register", auth_register),
     path("auth/login", auth_login),
     path("auth/logout", auth_logout),
@@ -72,7 +75,6 @@ urlpatterns = [
     path("matches/reject/<int:pk>", matches_reject),
     path("chats/", chats),
     path("messages/<int:chat_id>", messages_get),
-    path("messages/delete/<int:pk>", messages_delete),
     path("countries/", countries),
     path("gifts/", gifts_get_list),
     path("gifts/<int:pk>", gifts_get),

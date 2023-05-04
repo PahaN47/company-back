@@ -30,6 +30,17 @@ class LoginAPIView(GenericAPIView):
     serializer_class = LoginSerializer
 
     def post(self, request):
+        user = request.user
+        if not user.is_anonymous:
+            return Response(
+                {
+                    "id": user.id,
+                    "email": user.email,
+                    "firstName": user.firstName,
+                    "token": user.token,
+                },
+                status=status.HTTP_201_CREATED,
+            )
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
 
