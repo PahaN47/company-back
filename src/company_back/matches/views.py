@@ -46,7 +46,7 @@ class MatchesViewSet(ModelViewSet):
         request.data["status"] = MatchStatus.ACCEPTED.value
         return super().partial_update(request, *args, **kwargs)
 
-    @action(methods=["reject"], detail=False)
+    @action(methods=["post"], detail=False)
     def reject(self, request, *args, **kwargs):
         self.filter_incoming = True
         request.data["status"] = MatchStatus.REJECTED.value
