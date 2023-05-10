@@ -12,8 +12,8 @@ from .serializers import UsersSerializer
 
 
 class UsersPagination(PageNumberPagination):
-    page_size = 10
-    max_page_size = 10
+    page_size = 6
+    max_page_size = 6
 
 
 class UsersFilterListBackend(BaseFilterBackend):
