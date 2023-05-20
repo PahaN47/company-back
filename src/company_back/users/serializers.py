@@ -13,9 +13,9 @@ class UsersSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         country = instance.country
-        avater = instance.avatar
+        avatar = instance.avatar
         representation = super().to_representation(instance)
         representation["country"] = CountrySerializer(country).data
-        representation["avatar"] = MediaSerializer(avater).data["url"]
+        representation["avatar"] = MediaSerializer(avatar).data["url"]
 
         return representation

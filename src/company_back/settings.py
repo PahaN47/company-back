@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure--_1ja!qm7a6&3%pldo$rw_)e7t49o!)teq)@p)rl*^c+n5fe_5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "company_back",
     "jwt",
     "drf_yasg",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -48,6 +49,7 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     # "django.middleware.csrf.CsrfViewMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
@@ -135,3 +137,8 @@ CSRF_COOKIE_DOMAIN = None
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": ("company_back.backends.JWTAuthentication",),
 }
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+
+APPEND_SLASH = False
