@@ -5,16 +5,12 @@ from company_back.models import Chat, User
 
 
 class ChatUserSerializer(serializers.ModelSerializer):
+    avatar = serializers.CharField(source="avatar.url")
+
     class Meta:
         model = User
         fields = ["id", "firstName", "lastName", "avatar"]
         read_only_fields = ["id", "firstName", "lastName", "avatar"]
-
-    def to_representation(self, instance):
-        avatar = instance.avatar
-        representation = super().to_representation(instance)
-        representation["avatar"] = MediaSerializer(avatar).data["url"]
-        return super().to_representation(instance)
 
 
 class ChatsSerializer(serializers.ModelSerializer):

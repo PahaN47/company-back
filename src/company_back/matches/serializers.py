@@ -38,3 +38,11 @@ class CreateMatchSerializer(serializers.ModelSerializer):
         model = Match
         fields = "__all__"
         read_only_fields = ["id", "status", "date"]
+
+    def to_representation(self, instance):
+        initiator = instance.initiator
+        reciever = instance.reciever
+        representation = super().to_representation(instance)
+        representation["initiator"] = MatchUserSerializer(initiator).data
+        representation["reciever"] = MatchUserSerializer(reciever).data
+        return representation

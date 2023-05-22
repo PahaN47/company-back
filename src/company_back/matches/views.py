@@ -1,4 +1,3 @@
-import sys
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.decorators import action
@@ -46,13 +45,12 @@ class MatchesViewSet(ModelViewSet):
     def accept(self, request, *args, **kwargs):
         self.filter_incoming = True
         request.data["status"] = MatchStatus.ACCEPTED.value
+
         match_id = kwargs["pk"]
-        try:
-            match = self.get_queryset().get(id=match_id)
-        except Exception:
-            print("ERROR", sys.stderr)
+        match = self.get_queryset().get(id=match_id)
         new_chat = Chat.objects.create(user1_id=match.initiator.id, user2_id=match.reciever.id)
         new_chat.save()
+
         return super().partial_update(request, *args, **kwargs)
 
     @action(methods=["post"], detail=True)
