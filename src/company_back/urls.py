@@ -7,14 +7,11 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
 from company_back.auth.views import LoginAPIView, RegisterAPIView, LogoutAPIView
-from company_back.balance.views import BalanceViewSet
 from company_back.chats.views import ChatsViewSet
 from company_back.countries.views import CountriesViewSet
-from company_back.gifts.views import GiftsViewSet
 from company_back.matches.views import CreateMatchAPIView, MatchesViewSet
 from company_back.messages.views import MessagesViewSet
 from company_back.profile.views import ProfileViewSet
-from company_back.purchase.views import PurchseViewSet
 from company_back.users.views import UsersViewSet
 
 auth_register = RegisterAPIView.as_view()
@@ -37,13 +34,6 @@ messages_get = MessagesViewSet.as_view({"get": "list"})
 
 countries = CountriesViewSet.as_view({"get": "list"})
 
-gifts_get_list = GiftsViewSet.as_view({"get": "list"})
-gifts_get = GiftsViewSet.as_view({"get": "retrieve"})
-
-balance_get = BalanceViewSet.as_view({"get": "get_own"})
-balance_add = BalanceViewSet.as_view({"post": "add_to_balance"})
-
-purchase = PurchseViewSet.as_view({"post": "make_purchase"})
 
 
 schema_view = get_schema_view(
@@ -76,9 +66,4 @@ urlpatterns = [
     path("chats", chats),
     path("messages/<int:chat_id>", messages_get),
     path("countries", countries),
-    path("gifts", gifts_get_list),
-    path("gifts/<int:pk>", gifts_get),
-    path("balance", balance_get),
-    path("balance/add", balance_add),
-    path("purchase", purchase),
 ]
