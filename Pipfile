@@ -12,6 +12,7 @@ djangorestframework = "*"
 drf-yasg = "*"
 python-dateutil = "*"
 django-cors-headers = "*"
+tzdata = "*"
 
 [dev-packages]
 pre-commit = "*"

@@ -9,7 +9,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.utils.translation import gettext_lazy as _
 
-from company_back.const import MatchStatus, MessageStatus, PurchaseStatus, Role
+from company_back.const import MatchStatus, MessageStatus, Role
 from company_back.managers import CustomUserManager
 
 
@@ -17,17 +17,9 @@ class Country(models.Model):
     name = models.CharField(max_length=128)
 
 
-class Balance(models.Model):
-    amount = models.IntegerField(default=0, blank=True, null=False)
-
-
 class Media(models.Model):
     url = models.CharField(max_length=1024)
 
-
-class Gift(models.Model):
-    image = models.OneToOneField(Media, on_delete=models.CASCADE)
-    price = models.IntegerField(default=0, blank=True, null=False)
 
 
 class User(AbstractBaseUser):
@@ -36,7 +28,6 @@ class User(AbstractBaseUser):
     phone = models.CharField(max_length=32, default=None, blank=True, null=True)
     email = models.EmailField(_("email address"), unique=True)
     role = models.CharField(max_length=16, default=Role.USER.value, blank=True, null=False)
-    balance = models.OneToOneField(Balance, on_delete=models.SET_NULL, default=None, blank=True, null=True)
     avatar = models.OneToOneField(Media, on_delete=models.SET_NULL, default=None, blank=True, null=True)
     gender = models.CharField(max_length=32, default=None, blank=True, null=True)
     birthDate = models.DateField()
@@ -74,10 +65,9 @@ class User(AbstractBaseUser):
         return self.generate_jwt_token()
 
     def generate_jwt_token(self):
-        exp_date = dt.now() + timedelta(days=1)
 
         token = jwt.encode(
-            {"id": self.pk, "exp": int(exp_date.strftime("%s"))},
+            {"id": self.pk},
             settings.SECRET_KEY,
             algorithm="HS256",
         )
@@ -86,14 +76,6 @@ class User(AbstractBaseUser):
 
     def __str__(self):
         return str(self.email)
-
-
-class Purchase(models.Model):
-    balance = models.ForeignKey(Balance, on_delete=models.SET_NULL, default=None, blank=True, null=True)
-    gift = models.ForeignKey(Gift, on_delete=models.CASCADE)
-    reciever = models.ForeignKey(User, related_name="gifts", on_delete=models.CASCADE)
-    status = models.CharField(max_length=16, default=PurchaseStatus.PENDING.value, blank=True, null=False)
-    date = models.DateField(blank=True, null=True, auto_now=True)
 
 
 class Match(models.Model):
@@ -114,4 +96,3 @@ class Message(models.Model):
     message = models.CharField(max_length=256)
     date = models.DateTimeField(blank=True, null=True, auto_now=True)
     status = models.CharField(max_length=16, default=MessageStatus.SENT.value, blank=True, null=False)
-    gift = models.ForeignKey(Gift, on_delete=models.CASCADE, default=None, blank=True, null=True)
