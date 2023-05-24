@@ -16,6 +16,7 @@ from company_back.messages.views import MessagesViewSet
 from company_back.profile.views import ProfileViewSet
 from company_back.purchase.views import PurchseViewSet
 from company_back.users.views import UsersViewSet
+from message_grpc.handlers import grpc_handlers as message_grpc_handlers
 
 auth_register = RegisterAPIView.as_view()
 auth_login = LoginAPIView.as_view()
@@ -82,3 +83,7 @@ urlpatterns = [
     path("balance/add", balance_add),
     path("purchase", purchase),
 ]
+
+
+def grpc_handlers(server):
+    message_grpc_handlers(server)
