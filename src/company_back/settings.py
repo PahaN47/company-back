@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     "jwt",
     "drf_yasg",
     "corsheaders",
+    "django_socio_grpc",
+    "message_grpc",
 ]
 
 MIDDLEWARE = [
@@ -142,3 +144,5 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
 APPEND_SLASH = False
+
+GRPC_FRAMEWORK = {"ROOT_HANDLERS_HOOK": "message_grpc.handlers.grpc_handlers"}
